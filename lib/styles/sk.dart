@@ -28,6 +28,9 @@ class sk {
       textStyle: TextStyle(fontSize: fontSize),
       foregroundColor: foreground,
       backgroundColor: background,
+      shape: CircleBorder(),
+      padding: const EdgeInsets.all(0),
+
     );
 
     return SizedBox(
@@ -135,17 +138,27 @@ class sk {
   }
 
   static SizedBox card({
-    required Widget widget,
+    required Widget content,
     double height = 200,
     double width = 300,
+    double marginLeft = 0,
+    double marginTop = 0,
+    double marginRight = 0,
+    double marginBottom = 0,
     double elevation = 15,
   }) {
     return SizedBox(
       height: height,
       width: width,
       child: Card(
+        margin: EdgeInsets.only(
+          left: marginLeft,
+          top: marginTop,
+          right: marginRight,
+          bottom: marginBottom,
+        ),
         elevation: elevation,
-        child: widget,
+        child: content,
       ),
     );
   }

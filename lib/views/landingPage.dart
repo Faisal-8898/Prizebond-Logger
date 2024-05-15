@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prizebond_application/styles/sk.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key, required this.title});
@@ -26,7 +27,10 @@ class _LandingPageState extends State<LandingPage> {
   BoxDecoration bodyBackground() {
     return const BoxDecoration(
       gradient: LinearGradient(
-        colors: [Color(0xff70c74b), Color(0xff50a47a)],
+        colors: [
+          Color.fromARGB(255, 112, 199, 75),
+          Color.fromARGB(255, 80, 164, 122)
+        ],
         stops: [0, 1],
         begin: Alignment.topRight,
         end: Alignment.bottomLeft,
@@ -34,7 +38,7 @@ class _LandingPageState extends State<LandingPage> {
     );
   }
 
-  Container mainArea() {
+  Widget mainArea() {
     return Container(
       height: MediaQuery.of(context).size.height,
       margin: const EdgeInsets.only(top: 120),
@@ -42,34 +46,120 @@ class _LandingPageState extends State<LandingPage> {
         color: const Color.fromRGBO(255, 255, 255, 0.50),
         borderRadius: BorderRadius.circular(20.0),
       ),
-      child: Padding(
-        padding: const EdgeInsets.only(top: 20),
-        child: rowOfCards(),
+      child: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 7),
+            child: rowOfCards(),
+          ),
+          Positioned(
+            bottom: 35,
+            right: 40,
+            child: sk.elevatedButton(
+              content: Icon(Icons.add),
+              onPressed: addCollectionBtn,
+              width: 60,
+              height: 60,
+              foreground: Colors.white,
+              background: Color.fromARGB(255, 112, 199, 75),
+            ),
+          ),
+        ],
       ),
     );
+  }
+
+  void addCollectionBtn() {
+    
   }
 
   Column rowOfCards() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
-        card(created: DateTime.now(), modified: DateTime.now()),
-        card(created: DateTime.now(), modified: DateTime.now()),
-        card(created: DateTime.now(), modified: DateTime.now()),
-        card(created: DateTime.now(), modified: DateTime.now()),
+        card(
+          collectionName: "name",
+          created: DateTime.now(),
+          modified: DateTime.now(),
+        ),
+        card(
+          collectionName: "name",
+          created: DateTime.now(),
+          modified: DateTime.now(),
+        ),
+        card(
+          collectionName: "name",
+          created: DateTime.now(),
+          modified: DateTime.now(),
+        ),
+        card(
+          collectionName: "name",
+          created: DateTime.now(),
+          modified: DateTime.now(),
+        ),
       ],
     );
   }
 
-  SizedBox card({int collentionCount = 1, String collectionName = "Name", required DateTime created, required DateTime modified}) {
-    return const SizedBox(
+  SizedBox card(
+      {int collectionCount = 1,
+      required String collectionName,
+      required DateTime created,
+      required DateTime modified}) {
+    int createDay = created.day;
+    int createMonth = created.month;
+    int createYear = created.year;
+    final String createdDate = '${createDay}-${createMonth}-${createYear}';
+    int modifiedDay = modified.day;
+    int modifiedMonth = modified.month;
+    int modifiedYear = modified.year;
+    final String modifiedDate =
+        '${modifiedDay}-${modifiedMonth}-${modifiedYear}';
+
+    return sk.card(
+      content: Padding(
+        padding: EdgeInsets.only(top: 5.0, left: 15, right: 15, bottom: 4.0),
+        child: allCardInfo(
+            collectionCount, collectionName, createdDate, modifiedDate),
+      ),
       height: 80,
       width: 500,
-      child: Card(
-        margin: EdgeInsets.only(left: 15, right: 15, top: 6),
-        elevation: 5,
-        color: Colors.white,
-      ),
+      marginLeft: 15,
+      marginTop: 6,
+      marginRight: 15,
+      elevation: 5,
+    );
+  }
+
+  Column allCardInfo(
+      collectionCount, collectionName, createdDate, modifiedDate) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          'Collection: $collectionCount',
+          style: TextStyle(fontSize: 12, fontFamily: 'Asap'),
+        ),
+        Text(
+          collectionName,
+          style: TextStyle(
+              fontSize: 20, fontWeight: FontWeight.bold, fontFamily: 'Asap'),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Created: $createdDate',
+              style: TextStyle(fontSize: 12),
+            ),
+            Text(
+              'Modified: $modifiedDate',
+              style: TextStyle(fontSize: 12),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
