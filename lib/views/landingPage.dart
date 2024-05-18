@@ -1,15 +1,21 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:prizebond_application/styles/sk.dart';
+import 'package:prizebond_application/views/popups.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key, required this.title});
   final String title;
 
+  static _LandingPageState instance = _LandingPageState();
   @override
-  State<LandingPage> createState() => _LandingPageState();
+  State<LandingPage> createState() => instance;
 }
 
 class _LandingPageState extends State<LandingPage> {
+  List<SizedBox> cards = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,14 +59,14 @@ class _LandingPageState extends State<LandingPage> {
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 7),
-            child: listOfCollection(),
+            child: ListView(children: cards),
           ),
           Positioned(
             bottom: 35,
             right: 40,
             child: sk.elevatedButton(
               content: const Icon(Icons.add),
-              onPressed: addCollectionBtn,
+              onPressed: () => Popups().addCollectionBtn(context),
               width: 60,
               height: 60,
               elevation: 15,
@@ -74,26 +80,16 @@ class _LandingPageState extends State<LandingPage> {
     );
   }
 
-  void addCollectionBtn() {}
-
-  ListView listOfCollection() {
-    return ListView(children: landingPageCards());
-  }
-
-  List<SizedBox> landingPageCards() {
-    List<SizedBox> cards = [];
-
-    for (int i = 0; i < 20; i++) {
+  void listOfCollection(String collectionName) {
+    setState(() {
       cards.add(
         landingPageCard(
-          collectionName: 'collectionName',
+          collectionName: collectionName,
           created: DateTime.now(),
           modified: DateTime.now(),
         ),
       );
-    }
-
-    return cards;
+    });
   }
 
   SizedBox landingPageCard({

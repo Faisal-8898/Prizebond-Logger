@@ -20,6 +20,7 @@ class sk {
     double width = width,
     double fontSize = fontSize,
     double borderWidth = borderWidth,
+    BorderStyle borderStyle = BorderStyle.none,
     Color? background,
     Color? foreground,
     Color? borderColor,
@@ -31,7 +32,11 @@ class sk {
     foreground ??= _themeData.colorScheme.onBackground;
     ButtonStyle elevatedButtonStyle = ElevatedButton.styleFrom(
       textStyle: TextStyle(fontSize: fontSize),
-      side: BorderSide(width: borderWidth, color: borderColor),
+      side: BorderSide(
+        width: borderWidth,
+        color: borderColor,
+        style: borderStyle,
+      ),
       foregroundColor: foreground,
       backgroundColor: background,
       elevation: elevation,
@@ -174,6 +179,9 @@ class sk {
     double marginRight = 0,
     double marginBottom = 0,
     double elevation = 15,
+    Color? color,
+    Color? shadowColor,
+    Color? surfaceTintColor,
   }) {
     return SizedBox(
       height: height,
@@ -186,6 +194,9 @@ class sk {
           bottom: marginBottom,
         ),
         elevation: elevation,
+        color: color,
+        shadowColor: shadowColor,
+        surfaceTintColor: surfaceTintColor,
         child: content,
       ),
     );
