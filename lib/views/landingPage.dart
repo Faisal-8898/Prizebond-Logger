@@ -29,7 +29,7 @@ class _LandingPageState extends State<LandingPage> {
       gradient: LinearGradient(
         colors: [
           Color.fromARGB(255, 112, 199, 75),
-          Color.fromARGB(255, 80, 164, 122)
+          Color.fromARGB(255, 80, 164, 122),
         ],
         stops: [0, 1],
         begin: Alignment.topRight,
@@ -42,26 +42,31 @@ class _LandingPageState extends State<LandingPage> {
     return Container(
       height: MediaQuery.of(context).size.height,
       margin: const EdgeInsets.only(top: 120),
-      decoration: BoxDecoration(
-        color: const Color.fromRGBO(255, 255, 255, 0.50),
-        borderRadius: BorderRadius.circular(20.0),
+      decoration: const BoxDecoration(
+        color: Color.fromRGBO(255, 255, 255, 0.50),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
       ),
       child: Stack(
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 7),
-            child: rowOfCards(),
+            child: listOfCollection(),
           ),
           Positioned(
             bottom: 35,
             right: 40,
             child: sk.elevatedButton(
-              content: Icon(Icons.add),
+              content: const Icon(Icons.add),
               onPressed: addCollectionBtn,
               width: 60,
               height: 60,
+              elevation: 15,
               foreground: Colors.white,
-              background: Color.fromARGB(255, 112, 199, 75),
+              background: const Color.fromARGB(255, 112, 199, 75),
+              shape: const CircleBorder(),
             ),
           ),
         ],
@@ -69,58 +74,58 @@ class _LandingPageState extends State<LandingPage> {
     );
   }
 
-  void addCollectionBtn() {
-    
+  void addCollectionBtn() {}
+
+  ListView listOfCollection() {
+    return ListView(children: landingPageCards());
   }
 
-  Column rowOfCards() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: <Widget>[
-        card(
-          collectionName: "name",
+  List<SizedBox> landingPageCards() {
+    List<SizedBox> cards = [];
+
+    for (int i = 0; i < 20; i++) {
+      cards.add(
+        landingPageCard(
+          collectionName: 'collectionName',
           created: DateTime.now(),
           modified: DateTime.now(),
         ),
-        card(
-          collectionName: "name",
-          created: DateTime.now(),
-          modified: DateTime.now(),
-        ),
-        card(
-          collectionName: "name",
-          created: DateTime.now(),
-          modified: DateTime.now(),
-        ),
-        card(
-          collectionName: "name",
-          created: DateTime.now(),
-          modified: DateTime.now(),
-        ),
-      ],
-    );
+      );
+    }
+
+    return cards;
   }
 
-  SizedBox card(
-      {int collectionCount = 1,
-      required String collectionName,
-      required DateTime created,
-      required DateTime modified}) {
+  SizedBox landingPageCard({
+    int collectionCount = 1,
+    required String collectionName,
+    required DateTime created,
+    required DateTime modified,
+  }) {
     int createDay = created.day;
     int createMonth = created.month;
     int createYear = created.year;
-    final String createdDate = '${createDay}-${createMonth}-${createYear}';
+    String createdDate = '$createDay-$createMonth-$createYear';
+
     int modifiedDay = modified.day;
     int modifiedMonth = modified.month;
     int modifiedYear = modified.year;
-    final String modifiedDate =
-        '${modifiedDay}-${modifiedMonth}-${modifiedYear}';
+    String modifiedDate = '$modifiedDay-$modifiedMonth-$modifiedYear';
 
     return sk.card(
       content: Padding(
-        padding: EdgeInsets.only(top: 5.0, left: 15, right: 15, bottom: 4.0),
-        child: allCardInfo(
-            collectionCount, collectionName, createdDate, modifiedDate),
+        padding: const EdgeInsets.only(
+          top: 5.0,
+          left: 15,
+          right: 15,
+          bottom: 4.0,
+        ),
+        child: landingPageCardStructure(
+          collectionCount,
+          collectionName,
+          createdDate,
+          modifiedDate,
+        ),
       ),
       height: 80,
       width: 500,
@@ -131,32 +136,32 @@ class _LandingPageState extends State<LandingPage> {
     );
   }
 
-  Column allCardInfo(
-      collectionCount, collectionName, createdDate, modifiedDate) {
+  Column landingPageCardStructure(
+    collectionCount,
+    collectionName,
+    createdDate,
+    modifiedDate,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
-          'Collection: $collectionCount',
-          style: TextStyle(fontSize: 12, fontFamily: 'Asap'),
+        sk.text(
+          content: 'Collection: $collectionCount',
+          fontSize: 12,
+          fontFamily: 'Asap',
         ),
-        Text(
-          collectionName,
-          style: TextStyle(
-              fontSize: 20, fontWeight: FontWeight.bold, fontFamily: 'Asap'),
+        sk.text(
+          content: collectionName,
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          fontFamily: 'Asap',
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              'Created: $createdDate',
-              style: TextStyle(fontSize: 12),
-            ),
-            Text(
-              'Modified: $modifiedDate',
-              style: TextStyle(fontSize: 12),
-            ),
+            sk.text(content: 'Created: $createdDate', fontSize: 12),
+            sk.text(content: 'Modified: $modifiedDate', fontSize: 12),
           ],
         ),
       ],

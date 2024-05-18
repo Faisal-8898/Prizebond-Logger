@@ -19,18 +19,24 @@ class sk {
     double height = height,
     double width = width,
     double fontSize = fontSize,
-    dynamic foreground,
-    dynamic background,
+    double borderWidth = borderWidth,
+    Color? background,
+    Color? foreground,
+    Color? borderColor,
+    double? elevation,
+    OutlinedBorder? shape,
   }) {
+    borderColor ??= _themeData.colorScheme.shadow;
     background ??= _themeData.colorScheme.primary;
     foreground ??= _themeData.colorScheme.onBackground;
     ButtonStyle elevatedButtonStyle = ElevatedButton.styleFrom(
       textStyle: TextStyle(fontSize: fontSize),
+      side: BorderSide(width: borderWidth, color: borderColor),
       foregroundColor: foreground,
       backgroundColor: background,
-      shape: CircleBorder(),
+      elevation: elevation,
+      shape: shape,
       padding: const EdgeInsets.all(0),
-
     );
 
     return SizedBox(
@@ -51,9 +57,11 @@ class sk {
     double width = width,
     double fontSize = fontSize,
     double borderWidth = borderWidth,
-    dynamic borderColor,
-    dynamic foreground,
-    dynamic background,
+    Color? background,
+    Color? foreground,
+    Color? borderColor,
+    double? elevation,
+    OutlinedBorder? shape,
   }) {
     borderColor ??= _themeData.colorScheme.shadow;
     background ??= _themeData.colorScheme.onBackground;
@@ -63,6 +71,8 @@ class sk {
       side: BorderSide(width: borderWidth, color: borderColor),
       foregroundColor: foreground,
       backgroundColor: background,
+      elevation: elevation,
+      shape: shape,
       padding: const EdgeInsets.all(0),
     );
 
@@ -83,13 +93,24 @@ class sk {
     double height = height,
     double width = width,
     double fontSize = fontSize,
-    dynamic foreground,
-    dynamic background,
+    double borderWidth = borderWidth,
+    Color? background,
+    Color? foreground,
+    Color? borderColor,
+    double? elevation,
+    OutlinedBorder? shape,
   }) {
+    borderColor ??= _themeData.colorScheme.shadow;
+    background ??= _themeData.colorScheme.onBackground;
+    foreground ??= _themeData.colorScheme.primary;
     ButtonStyle textButtonStyle = TextButton.styleFrom(
       textStyle: TextStyle(fontSize: fontSize),
+      side: BorderSide(width: borderWidth, color: borderColor),
       foregroundColor: foreground,
       backgroundColor: background,
+      elevation: elevation,
+      shape: shape,
+      padding: const EdgeInsets.all(0),
     );
 
     return SizedBox(
@@ -107,17 +128,19 @@ class sk {
     required List<T> items,
     required T? value,
     required void Function(T?)? onChanged,
+    Icon? icon,
     Widget? hint,
-    double? height,
     double? width,
+    double? height,
     double? fontSize,
+    bool isExpanded = false,
+    BorderRadius? borderRadius,
     Widget Function(T)? itemBuilder, // Add this parameter
   }) {
     return SizedBox(
       height: height,
       width: width,
       child: DropdownButton<T>(
-        hint: hint,
         value: value,
         items: items
             .map(
@@ -132,7 +155,12 @@ class sk {
               ),
             )
             .toList(),
+        hint: hint,
+        icon: icon,
         onChanged: onChanged,
+        isExpanded: isExpanded,
+        borderRadius: borderRadius,
+        padding: const EdgeInsets.all(0),
       ),
     );
   }
@@ -165,12 +193,17 @@ class sk {
 
   static Text text({
     required String content,
-    Color fontColor = Colors.black,
-    FontWeight fontWeight = FontWeight.normal,
-    double fontSize = 14,
+    double? fontSize,
+    Color? fontColor,
+    FontWeight? fontWeight,
+    String? fontFamily,
   }) {
-    TextStyle textStyle =
-        TextStyle(color: fontColor, fontWeight: fontWeight, fontSize: fontSize);
+    TextStyle textStyle = TextStyle(
+      color: fontColor,
+      fontWeight: fontWeight,
+      fontSize: fontSize,
+      fontFamily: fontFamily,
+    );
 
     return Text(
       content,

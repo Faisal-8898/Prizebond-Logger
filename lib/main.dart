@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:prizebond_application/views/landingPage.dart';
 import 'styles/sk.dart';
 
-ThemeData themeData = ThemeData(
-  colorScheme:
-      ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 30, 201, 95)),
-  useMaterial3: true,
-);
-
 void main() {
   runApp(const MyApp());
 }
+
+ThemeData themeData = ThemeData(
+  colorScheme: ColorScheme.fromSeed(
+    seedColor: const Color.fromARGB(255, 30, 201, 95),
+  ),
+);
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
