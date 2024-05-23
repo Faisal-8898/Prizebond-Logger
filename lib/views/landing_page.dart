@@ -1,19 +1,21 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:prizebond_application/globals.dart';
 import 'package:prizebond_application/styles/sk.dart';
 import 'package:prizebond_application/views/popups.dart';
+import 'package:prizebond_application/views/bondsList.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key, required this.title});
   final String title;
 
-  static _LandingPageState instance = _LandingPageState();
-  
   @override
-  State<LandingPage> createState() => instance;
+  State<LandingPage> createState() => _LandingPageState();
 }
 
 class _LandingPageState extends State<LandingPage> {
-  List<SizedBox> cards = [];
+  List<Widget> cards = [];
 
   @override
   Widget build(BuildContext context) {
@@ -58,14 +60,15 @@ class _LandingPageState extends State<LandingPage> {
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 7),
-            child: ListView(children: cards),
+            child: ListView(key: ValueKey(cards.length), children: cards),
           ),
           Positioned(
             bottom: 35,
             right: 40,
             child: sk.elevatedButton(
               content: const Icon(Icons.add),
-              onPressed: () => Popups().addCollectionBtn(context),
+              onPressed: () => Popups(onCollectionAdded: listOfCollection)
+                  .addCollectionBtn(context),
               width: 60,
               height: 60,
               elevation: 15,
@@ -79,19 +82,20 @@ class _LandingPageState extends State<LandingPage> {
     );
   }
 
-  void listOfCollection(String collectionName) {
-    setState(() {
-      cards.add(
-        landingPageCard(
-          collectionName: collectionName,
+  void listOfCollection() {
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => setState(() {
+        cards.add(landingPageCard(
+          collectionCount: cards.length + 1,
+          collectionName: Globals.collectionName,
           created: DateTime.now(),
           modified: DateTime.now(),
-        ),
-      );
-    });
+        ));
+      }),
+    );
   }
 
-  SizedBox landingPageCard({
+  landingPageCard({
     int collectionCount = 1,
     required String collectionName,
     required DateTime created,
@@ -106,28 +110,38 @@ class _LandingPageState extends State<LandingPage> {
     int modifiedMonth = modified.month;
     int modifiedYear = modified.year;
     String modifiedDate = '$modifiedDay-$modifiedMonth-$modifiedYear';
-
-    return sk.card(
-      content: Padding(
-        padding: const EdgeInsets.only(
-          top: 5.0,
-          left: 15,
-          right: 15,
-          bottom: 4.0,
+    return GestureDetector(
+      onTap: () {
+        print("tapped");
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => BondsList(),
+          ),
+        );
+      },
+      child: sk.card(
+        content: Padding(
+          padding: const EdgeInsets.only(
+            top: 5.0,
+            left: 15,
+            right: 15,
+            bottom: 4.0,
+          ),
+          child: landingPageCardStructure(
+            collectionCount,
+            collectionName,
+            createdDate,
+            modifiedDate,
+          ),
         ),
-        child: landingPageCardStructure(
-          collectionCount,
-          collectionName,
-          createdDate,
-          modifiedDate,
-        ),
+        height: 80,
+        width: 500,
+        marginLeft: 15,
+        marginTop: 6,
+        marginRight: 15,
+        elevation: 5,
       ),
-      height: 80,
-      width: 500,
-      marginLeft: 15,
-      marginTop: 6,
-      marginRight: 15,
-      elevation: 5,
     );
   }
 
