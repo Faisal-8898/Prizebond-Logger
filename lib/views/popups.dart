@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prizebond_application/styles/sk.dart';
-import 'package:prizebond_application/views/landingPage.dart';
+import 'package:prizebond_application/views/landing_page.dart';
 
 class Popups {
   TextEditingController collectionNameTextField = TextEditingController();
@@ -24,7 +24,7 @@ class Popups {
                     height: 190,
                     width: 400,
                     content: Padding(
-                      padding: EdgeInsets.all(19.0),
+                      padding: const EdgeInsets.all(19.0),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,7 +61,9 @@ class Popups {
                       borderColor: const Color.fromARGB(255, 113, 199, 76),
                       borderStyle: BorderStyle.solid,
                       borderWidth: 1.5,
-                      onPressed: doneBtn,
+                      onPressed: (){
+                        saveBtn(context);
+                      },
                     ),
                   ),
                 ],
@@ -77,7 +79,8 @@ class Popups {
     );
   }
 
-  void doneBtn() {
+  void saveBtn(context) {
     LandingPage.instance.listOfCollection(collectionNameTextField.text);
+    Navigator.of(context).pop();
   }
 }

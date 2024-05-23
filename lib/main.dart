@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prizebond_application/views/landingPage.dart';
+import 'package:prizebond_application/views/landing_page.dart';
 import 'styles/sk.dart';
 
 void main() {

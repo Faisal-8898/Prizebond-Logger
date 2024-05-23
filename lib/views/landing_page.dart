@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:prizebond_application/styles/sk.dart';
 import 'package:prizebond_application/views/popups.dart';
@@ -9,6 +7,7 @@ class LandingPage extends StatefulWidget {
   final String title;
 
   static _LandingPageState instance = _LandingPageState();
+  
   @override
   State<LandingPage> createState() => instance;
 }
