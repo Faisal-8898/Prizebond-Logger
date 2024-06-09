@@ -1,10 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:prizebond_application/globals.dart';
 import 'package:prizebond_application/styles/sk.dart';
-import 'package:prizebond_application/views/landing_page.dart';
+
+class SaveController extends GetxController {
+  final RxString collectionName = "".obs;
+  final RxString singleBond = "".obs;
+  final RxString multiBondsFrom = "".obs;
+  final RxString multiBondsTo = "".obs;
+}
 
 class Popups {
   TextEditingController collectionNameTextField = TextEditingController();
+  TextEditingController multiBondsFromTextFieldFrom = TextEditingController();
+  TextEditingController multiBondsFromTextFieldTo = TextEditingController();
+  TextEditingController singleBondTextField = TextEditingController();
+
   final VoidCallback onCollectionAdded;
 
   Popups({required this.onCollectionAdded});
@@ -92,6 +104,15 @@ class Popups {
     Navigator.of(context).pop();
   }
 
+  void saveBtnBonds(context) {
+    // add list in landing page
+    // LandingPage.listOfCollection(collectionNameTextField.text);
+    Globals.singleBondName = singleBondTextField.text;
+    // LandingPage().of(context).listOfCollection();
+    onCollectionAdded();
+    Navigator.of(context).pop();
+  }
+
   void addSingleBondBtn(BuildContext context) {
     showDialog(
       context: context,
@@ -124,11 +145,22 @@ class Popups {
                             ),
                           ),
                           const SizedBox(height: 8.0),
-                          TextField(
-                            controller: collectionNameTextField,
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: 'e.g. 0012345, 0012349,...',
+                          Container(
+                            child: TextField(
+                              controller:
+                                  singleBondTextField, // Replace with your controller for "To:"
+                              keyboardType: TextInputType
+                                  .number, // Set keyboard type to number
+                              inputFormatters: <TextInputFormatter>[
+                                FilteringTextInputFormatter
+                                    .digitsOnly // Allow only digits
+                              ],
+                              decoration: const InputDecoration(
+                                contentPadding:
+                                    EdgeInsets.only(left: 10.0, top: 4.0),
+                                border: OutlineInputBorder(),
+                                hintText: 'eg. 0012345',
+                              ),
                             ),
                           ),
                         ],
@@ -149,7 +181,9 @@ class Popups {
                       borderStyle: BorderStyle.solid,
                       borderWidth: 1.5,
                       onPressed: () {
-                        saveBtn(context);
+                        String singleBondValue = singleBondTextField.text;
+                        saveBtnBonds(context);
+                        print('Single Bond: $singleBondValue');
                       },
                     ),
                   ),
@@ -215,8 +249,11 @@ class Popups {
                                   width: 130, // Adjust this value as needed
                                   height: 30, // Adjust this value as needed
                                   child: TextField(
-                                    controller:
-                                        collectionNameTextField, // Replace with your controller
+                                    controller: multiBondsFromTextFieldFrom,
+                                    keyboardType: TextInputType.number,
+                                    inputFormatters: <TextInputFormatter>[
+                                      FilteringTextInputFormatter.digitsOnly
+                                    ],
                                     decoration: const InputDecoration(
                                       contentPadding:
                                           EdgeInsets.only(left: 10.0, top: 4.0),
@@ -247,8 +284,11 @@ class Popups {
                                   width: 130, // Adjust this value as needed
                                   height: 30, // Adjust this value as needed
                                   child: TextField(
-                                    controller:
-                                        collectionNameTextField, // Replace with your controller
+                                    controller: multiBondsFromTextFieldTo,
+                                    keyboardType: TextInputType.number,
+                                    inputFormatters: <TextInputFormatter>[
+                                      FilteringTextInputFormatter.digitsOnly
+                                    ],
                                     decoration: const InputDecoration(
                                       contentPadding:
                                           EdgeInsets.only(left: 10.0, top: 4.0),
